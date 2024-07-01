@@ -5,14 +5,14 @@
 `
     OPENAI_API_KEY=open-api_key
 
-    POSTGRES_DB=openai_db
-    POSTGRES_USER=user
-    POSTGRES_PASSWORD=password
-    DB_USER=user
-    DB_PASSWORD=password
-    DB_SERVER=db
-    DB_NAME=openai_db
-    DATABASE_URL=postgresql://user:password@db:5432/openai_db
+    POSTGRES_DB=
+    POSTGRES_USER=
+    POSTGRES_PASSWORD=
+    DB_USER=
+    DB_PASSWORD=
+    DB_SERVER=
+    DB_NAME=
+    DATABASE_URL=postgresql://DB_USER:DB_PASSWORD@db:5432/DB_NAME
     FLASK_ENV=development
 
 `
