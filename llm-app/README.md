@@ -2,6 +2,11 @@
 
 
 **Step 1: Set Up Environment Variables**
+On your terminal, type and enter:
+`cd llm-app`
+
+then add `.env` file to the project
+fill up the env variables with the correct values for the keys below
 
 `
     OPENAI_API_KEY=open-api_key
