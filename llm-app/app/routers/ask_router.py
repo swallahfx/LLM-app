@@ -2,7 +2,6 @@ from flask import request, jsonify, current_app
 from ..controllers.ask_controller import AskController
 from . import api_blueprint
 from openai import OpenAIError
-# from ..controllers.ask_controller import AskController
 
 @api_blueprint.route('/test', methods=['GET'])
 def home():

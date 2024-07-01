@@ -1,5 +1,3 @@
-# import pytest
-# from flask import current_app, json
 from unittest.mock import patch, Mock
 from app.models.ask import QA
 

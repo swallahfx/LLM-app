@@ -1,7 +1,5 @@
 import pytest
-# from app import create_app, models
 from app import create_app, models
-# from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 @pytest.fixture(scope='module')
