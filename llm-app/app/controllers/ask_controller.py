@@ -17,7 +17,7 @@ class AskController:
                 ],
                 max_tokens=150
             )
-            answer = response.choices[0].text.strip()
+            answer = response.choices[0].message["content"]
             return answer
         except OpenAIError as e:
             current_app.logger.error(f"OpenAI API error: {str(e)}")
