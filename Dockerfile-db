@@ -1,4 +1,4 @@
-FROM postgres:13
+FROM postgres:latest
 
 ENV POSTGRES_DB=openai_db
 ENV POSTGRES_USER=user

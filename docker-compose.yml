@@ -1,0 +1,140 @@
+version: '3'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile-db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - ${PORT_DB}:5432
+
+  migrate:
+    build: .
+    command: alembic upgrade head
+    volumes:
+      - .:/code
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_SERVER=${DB_SERVER}
+      - DB_NAME=${DB_NAME}
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
+
+  test:
+    build: .
+    command: pytest tests/test_route.py
+    volumes:
+      - .:/code
+    environment:
+      - PYTHONPATH=/code
+      - FLASK_ENV=${FLASK_ENV}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_SERVER=${DB_SERVER}
+      - DB_NAME=${DB_NAME}
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
+
+  web:
+    build: .
+    command: python main.py
+    volumes:
+      - .:/code:cached
+    ports:
+      - ${PORT_APP}:5002
+    environment:
+      - FLASK_ENV=${FLASK_ENV}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_SERVER=${DB_SERVER}
+      - DB_NAME=${DB_NAME}
+      - DATABASE_URL=${DATABASE_URL}
+      - SQLALCHEMY_DATABASE_URI=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+
+    depends_on:
+      - migrate
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  pgdata:
+
+
+
+# version: '3'
+
+# services:
+#   db:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile-db
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#     environment:
+#       - POSTGRES_DB=${POSTGRES_DB}
+#       - POSTGRES_USER=${POSTGRES_USER}
+#       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#     ports:
+#       - ${PORT_DB}:5432
+
+#   migrate:
+#     build: .
+#     command: alembic upgrade head
+#     volumes:
+#       - .:/code
+#     environment:
+#       - DB_USER=${DB_USER}
+#       - DB_PASSWORD=${DB_PASSWORD}
+#       - DB_SERVER=${DB_SERVER}
+#       - DB_NAME=${DB_NAME}
+#       - DATABASE_URL=${DATABASE_URL}
+#     depends_on:
+#       - db
+
+#   web:
+#     build: .
+#     command: python main.py
+#     volumes:
+#       - .:/code
+#     ports:
+#       - ${PORT_APP}:5002
+#     environment:
+#       - FLASK_ENV=${FLASK_ENV}
+#       - DB_USER=${DB_USER}
+#       - DB_PASSWORD=${DB_PASSWORD}
+#       - DB_SERVER=${DB_SERVER}
+#       - DB_NAME=${DB_NAME}
+#       - DATABASE_URL=${DATABASE_URL}
+#     depends_on:
+#       - db
+
+#   test:
+#     build: .
+#     command: pytest tests/test_route.py
+#     volumes:
+#       - .:/code
+#     environment:
+#       - PYTHONPATH=/code
+#       - FLASK_ENV=${FLASK_ENV}
+#       - DB_USER=${DB_USER}
+#       - DB_PASSWORD=${DB_PASSWORD}
+#       - DB_SERVER=${DB_SERVER}
+#       - DB_NAME=${DB_NAME}
+#       - DATABASE_URL=${DATABASE_URL}
+#     depends_on:
+#       - db
+
+# volumes:
+#   pgdata:
