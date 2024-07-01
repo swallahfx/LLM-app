@@ -1,5 +1,6 @@
 # Setting Up the Project
 
+
 **Step 1: Set Up Environment Variables**
 
 `
@@ -17,6 +18,8 @@
 
 `
 
+
+
 **Step 2: Build and Run the Docker Containers**
 
 Run the below command to build and start your Docker containers:
@@ -24,6 +27,8 @@ Run the below command to build and start your Docker containers:
 `docker-compose up --build`
 
 This command will spin up Docker containers and prepare all the necessary dependencies
+
+
 
 
 **Step 3: Make a POST Request to the API**
@@ -46,6 +51,8 @@ You can use tools like curl or Postman to make this request. Here's an example u
 `
     curl -X POST http://127.0.0.1:5002/api/ask -H "Content-Type: application/json" -d '{"question": "anything you want to ask the llm"}'
 `
+
+
 
 **Step 4: Run Tests**
 
