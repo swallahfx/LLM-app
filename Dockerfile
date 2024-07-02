@@ -1,14 +1,9 @@
-# Dockerfile for Flask App
-FROM python:latest
+FROM python:3.12.0-slim-bookworm
 
 WORKDIR /code
 
 COPY requirements.txt .
 
-# RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir pip setuptools wheel && pip install -r requirements.txt
 
 ENV FLASK_APP=main.py
-
-CMD ["flask", "run", "--host=0.0.0.0"]
-

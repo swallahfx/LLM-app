@@ -21,9 +21,8 @@ def ask():
     controller = AskController()
     try:
         answer = controller.get_answer(question)
+        controller.save_question_answer(question, answer)
+
+        return jsonify({"question": question, "answer": answer})
     except OpenAIError:
         return jsonify({"error": "Failed to get a response from OpenAI API"}), 500
-
-    controller.save_question_answer(question, answer)
-
-    return jsonify({"question": question, "answer": answer})

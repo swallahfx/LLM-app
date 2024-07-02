@@ -17,16 +17,16 @@ class AskController:
                 messages=[{"role": "user", "content": question}],
                 max_tokens=150,
             )
-            return response.choices[0].message["content"]
-        except IndexError:
+            return response.choices[0].message.content
+        except (IndexError, TypeError, RuntimeError):
             raise RuntimeError(f"Failed to get an answer from OpenAI API")
         except OpenAIError as e:
-            current_app.logger.error(f"OpenAI API error while getting answer for question '{question}': {str(e)}")
+            current_app.logger.error(
+                f"OpenAI API error while getting answer for question '{question}': {str(e)}"
+            )
             raise RuntimeError(f"Failed to get answer from OpenAI API: {str(e)}")
-
 
     def save_question_answer(self, question, answer):
         new_qa = QA(question=question, answer=answer)
         session.add(new_qa)
         session.commit()
-        
