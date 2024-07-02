@@ -2,26 +2,10 @@
 
 
 **Step 1: Set Up Environment Variables**
-On your terminal, type and enter:
-`cd llm-app`
 
-then add `.env` file to the project
-fill up the env variables with the correct values for the keys below
-
-`
-    OPENAI_API_KEY=open-api_key
-
-    POSTGRES_DB=DB_NAME
-    POSTGRES_USER=DB_USER
-    POSTGRES_PASSWORD=DB_PASSWORD
-    DB_USER=DB_USER
-    DB_PASSWORD=DB_PASSWORD
-    DB_SERVER=DB_SERVER
-    DB_NAME=DB_NAME
-    DATABASE_URL=postgresql://DB_USER:DB_PASSWORD@db:5432/DB_NAME
-    FLASK_ENV=development
-
-`
+create an `.env` file to the project, copy the contents in `example.env`
+and paste in the .env file
+NB: update the .env file by adding a value for `OPENAI_API_KEY`: you can get this from OPENAI
 
 
 

@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile-db
     volumes:
       - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -19,6 +21,8 @@ services:
     command: alembic upgrade head
     volumes:
       - .:/code
+    env_file:
+      - .env
     environment:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
@@ -33,6 +37,8 @@ services:
     command: pytest tests/test_route.py
     volumes:
       - .:/code
+    env_file:
+      - .env
     environment:
       - PYTHONPATH=/code
       - FLASK_ENV=${FLASK_ENV}
@@ -49,6 +55,8 @@ services:
     command: python main.py
     volumes:
       - .:/code:cached
+    env_file:
+      - .env
     ports:
       - ${PORT_APP}:5002
     environment:
