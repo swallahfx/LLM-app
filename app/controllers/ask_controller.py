@@ -24,7 +24,7 @@ class AskController:
             current_app.logger.error(
                 f"OpenAI API error while getting answer for question '{question}': {str(e)}"
             )
-            raise RuntimeError(f"Failed to get answer from OpenAI API: {str(e)}")
+            raise RuntimeError(f"Failed to get answer from OpenAI API:")
 
     def save_question_answer(self, question, answer):
         new_qa = QA(question=question, answer=answer)

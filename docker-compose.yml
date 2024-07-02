@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   db:
     build:
@@ -8,7 +10,7 @@ services:
     env_file:
       - .env
 
-  migrate: &migrate
+  migrate:
     build: .
     command: alembic upgrade head
     volumes:
@@ -18,15 +20,32 @@ services:
     depends_on:
       - db
 
+  test:
+    build: .
+    command: pytest tests/test_route.py
+    volumes:
+      - .:/code
+    env_file:
+      - .env
+    depends_on:
+      - db
+
   web:
-    <<: *migrate
+    build: .
     command: python main.py
+    volumes:
+      - .:/code:cached
     ports:
       - ${PORT_APP}:5002
-
-  test:
-    <<: *migrate
-    command: pytest tests/test_route.py
+    env_file:
+      - .env
+    depends_on:
+      - migrate
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 volumes:
   pgdata:
